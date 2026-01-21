@@ -131,6 +131,14 @@ buttons:
       prefix: "<mark>"
       suffix: "</mark>"
       lineMode: inline
+    - name: styledText
+      svg_icon: palette
+      title: "Styled Text"
+      exampleText: "styled text"
+      action: surround
+      prefix: '<div style="color: red; transform: rotate(10deg); background: linear-gradient(45deg, blue, green);">'
+      suffix: "</div>"
+      lineMode: inline
     - name: imageLink
       svg_icon: panorama
       title: "Image via external URL"
@@ -234,7 +242,7 @@ buttons:
 svg_icons:
   type: list
   list_type: compact
-  default: asterisk|copyright|cubes-stacked|euro-sign|font|gem|heading|highlighter|keyboard|list-check|panorama|registered|strikethrough|subscript|superscript|trademark|underline|yen-sign
+  default: asterisk|copyright|cubes-stacked|euro-sign|font|gem|heading|highlighter|keyboard|list-check|palette|panorama|registered|strikethrough|subscript|superscript|trademark|underline|yen-sign
 
 translations:
   type: objects
@@ -268,4 +276,4 @@ translations:
 
 layout:
   type: list
-  default: STYLES|underline|strike,,bonanza|superscript,,bonanza|subscript,,bonanza|big,,bonanza|small,,bonanza|keyboard,,bonanza|INSERTIONS|heading1,,bonanza|heading2,,bonanza|heading3,,bonanza|footnote|ruby,,bonanza|copyright,,bonanza|registered,,bonanza|trademark,,bonanza|euro,,bonanza|yen,,bonanza|shrug,,bonanza|imageLink,,bonanza|EXTRAS|D,checklist|M,checklist,,bonanza|highlight,,bonanza|inserted,,bonanza|deleted,,bonanza|GEARMENU|toggleBonanza
+  default: STYLES|underline|strike,,bonanza|superscript,,bonanza|subscript,,bonanza|big,,bonanza|small,,bonanza|keyboard,,bonanza|INSERTIONS|heading1,,bonanza|heading2,,bonanza|heading3,,bonanza|footnote|ruby,,bonanza|copyright,,bonanza|registered,,bonanza|trademark,,bonanza|euro,,bonanza|yen,,bonanza|shrug,,bonanza|imageLink,,bonanza|EXTRAS|D,checklist|M,checklist,,bonanza|highlight,,bonanza|styledText,,bonanza|inserted,,bonanza|deleted,,bonanza|GEARMENU|toggleBonanza

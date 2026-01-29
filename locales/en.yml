@@ -106,6 +106,16 @@ en:
                 then this value must also be included in the
                 <b>SVG Icons</b> setting (otherwise the icon SVG will not
                 be delivered to the browser).
+            customSvg:
+              label: Custom SVG
+              description: >-
+                Custom SVG icon code. Supports inline SVG or data URI format.
+                If specified, this supersedes the <b>Icon</b> setting.
+                <br><b>Examples:</b>
+                <ul>
+                <li>Inline SVG: <code>&lt;svg viewBox="0 0 24 24"&gt;&lt;circle cx="12" cy="12" r="10" fill="currentColor"/&gt;&lt;/svg&gt;</code></li>
+                <li>Data URI: <code>data:image/svg+xml;utf8,&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M12 2L2 7v10l10 5 10-5V7z"/&gt;&lt;/svg&gt;</code></li>
+                </ul>
             nonIcon:
               label: Non-Icon
               description: >-

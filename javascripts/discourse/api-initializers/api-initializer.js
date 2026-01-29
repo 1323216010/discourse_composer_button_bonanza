@@ -37,6 +37,56 @@ function makeButtonIdentifier(buttonName) {
 }
 
 
+// Inject custom SVG content into a button element.
+//
+function injectCustomSvg(buttonId, svgContent) {
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+        const button = document.querySelector(`.${buttonId}`);
+        if (!button) {
+            console.warn(CBBKEY, `Button not found for custom SVG injection: ${buttonId}`);
+            return;
+        }
+        
+        // Find the SVG element or icon container
+        let svgElement = button.querySelector('svg');
+        let iconContainer = button.querySelector('.d-icon');
+        
+        if (svgElement) {
+            // Replace the placeholder SVG
+            if (svgContent.startsWith('data:image/svg')) {
+                // Data URI format - replace with img tag
+                const img = document.createElement('img');
+                img.src = svgContent;
+                img.style.cssText = 'width:100%;height:100%;';
+                img.alt = '';
+                svgElement.replaceWith(img);
+            } else if (svgContent.trim().startsWith('<svg')) {
+                // Inline SVG - parse and replace
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(svgContent, 'image/svg+xml');
+                const newSvg = doc.querySelector('svg');
+                if (newSvg) {
+                    // Preserve any classes from the original SVG
+                    const classes = svgElement.getAttribute('class');
+                    if (classes) {
+                        newSvg.setAttribute('class', classes);
+                    }
+                    svgElement.replaceWith(newSvg);
+                } else {
+                    console.error(CBBKEY, `Failed to parse customSvg for button ${buttonId}`);
+                }
+            } else {
+                console.error(CBBKEY, `Invalid customSvg format for button ${buttonId}`);
+            }
+        } else if (iconContainer) {
+            // Fallback: inject into container
+            iconContainer.innerHTML = svgContent;
+        }
+    });
+}
+
+
 // These are populated via our ApiInitializer (when we actually get to work).
 let BUTTONS;
 let TRANSLATIONS;
@@ -238,8 +288,10 @@ function makeCommonButtonOptions(buttonSpec, i18nProperties) {
                                        applyTranslation(definition.nonIcon,
                                                         buttonName, "nonIcon"),
                                        i18nProperties);
+    const customSvg = applyTranslation(definition.customSvg, buttonName, "customSvg");
     return {
-        icon: definition.svg_icon,
+        icon: customSvg ? 'circle' : definition.svg_icon,  // Use placeholder icon for custom SVG
+        customSvg: customSvg,
         nonIconKey: nonIconKey ? `composer.${nonIconKey}` : null,
         titleKey: `composer.${titleKey}`,
         elementId: makeButtonIdentifier(buttonName),
@@ -253,7 +305,7 @@ function makeCommonButtonOptions(buttonSpec, i18nProperties) {
 // Add a button directly to the toolbar.
 //
 function addToolbarButton(toolbar, toolbarGroup, buttonSpec, i18nProperties) {
-    const {icon, nonIconKey, titleKey, elementId, action,
+    const {icon, customSvg, nonIconKey, titleKey, elementId, action,
           } = makeCommonButtonOptions(buttonSpec, i18nProperties);
     toolbar.addButton({
         id: elementId,
@@ -279,13 +331,18 @@ function addToolbarButton(toolbar, toolbarGroup, buttonSpec, i18nProperties) {
         // unshift  - if true, add button to beginning of group (versus end)
         // popupMenu  - set true only if this is *the* magic popup-menu button
     });
+    
+    // Inject custom SVG if specified
+    if (customSvg && !nonIconKey) {
+        injectCustomSvg(elementId, customSvg);
+    }
 }
 
 
 // Add a button directly to the popup menu under the ⚙️ button.
 //
 function addPopupMenuButton(api, buttonSpec, i18nProperties) {
-    const {icon, titleKey, elementId, action,
+    const {icon, customSvg, titleKey, elementId, action,
            buttonName, definition
           } = makeCommonButtonOptions(buttonSpec, i18nProperties);
     const hoverKey = setI18nProperty(buttonName, "hover",

@@ -27,6 +27,8 @@ buttons:
         required: true
       svg_icon:
         type: string
+      customSvg:
+        type: string
       nonIcon:
         type: string
       title:
@@ -59,7 +61,7 @@ buttons:
         type: boolean
   default:
     - name: styledText
-      svg_icon: palette
+      customSvg: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3l3.5 14 3.5-7 7-3.5L3 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 5l-1 1m2 2l-1 1m-3-5l1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="18.5" cy="5.5" r="0.8" fill="currentColor"/><circle cx="20" cy="8" r="0.6" fill="currentColor"/><circle cx="16.5" cy="7" r="0.5" fill="currentColor"/></svg>'
       title: "Styled Text"
       exampleText: "styled text"
       action: surround
